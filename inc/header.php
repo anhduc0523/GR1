@@ -20,6 +20,7 @@
 	$ct = new cart();
 	$us = new user();
 	$cat = new category();
+	$cs = new customer();
 	$product = new product();
 ?>
 <?php
@@ -86,7 +87,15 @@
 						</a>
 					</div>
 				</div>
-				<div class="login"><a href="login.php">Đăng nhập</a></div>
+				<div class="login">
+					<?php
+						$login_check = Session::get('customer_login');
+						if($login_check == false){
+							echo '<a href="login.php">Đăng nhập</a></div>';
+						}else{
+							echo '<a href="logout.php">Đăng xuất</a></div>';
+						}
+					?>
 				<div class="clear"></div>
 			</div>
 			<div class="clear"></div>
