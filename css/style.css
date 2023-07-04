@@ -2523,3 +2523,32 @@ p.terms {
  	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#525252', endColorstr='#454646', GradientType=0);
  	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
  }
+
+ h3.payment{
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+ }
+
+ .wrapper_method{
+	text-align: center;
+	width: 550px;
+	margin: 0 auto;
+	border: 1px solid #666;
+	padding: 20px;
+	background: cornsilk;
+ }
+
+.wrapper_method a{
+	padding: 10px;
+	/* border: 1px solid #818181; */
+	/* margin: 10px; */
+	background: red;
+	color: #fff;
+	/* display: block; */
+}
+
+.wrapper_method h3{
+	margin-bottom: 20px;
+}
