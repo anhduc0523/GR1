@@ -87,13 +87,19 @@
 						</a>
 					</div>
 				</div>
+				<?php
+					if(isset($_GET['customer_id'])){
+						$del_cart = $ct-> del_all_data();
+						Session::destroy();
+					}
+				?>
 				<div class="login">
 					<?php
 						$login_check = Session::get('customer_login');
 						if($login_check == false){
 							echo '<a href="login.php">Đăng nhập</a></div>';
 						}else{
-							echo '<a href="logout.php">Đăng xuất</a></div>';
+							echo '<a href="?customer_id='.Session::get('customer_id').'">Đăng xuất</a></div>';
 						}
 					?>
 				<div class="clear"></div>
@@ -104,8 +110,23 @@
 			<ul id="dc_mega-menu-orange" class="dc_mm-orange">
 				<li><a href="index.php">Trang chủ</a></li>
 				<li><a href="products.php">Sản phẩm</a> </li>
-				<!-- <li><a href="topbrands.php">Top Brands</a></li> -->
-				<li><a href="cart.php">Giỏ hàng</a></li>
+				<?php
+					$checkCart = $ct->check_cart();
+					if($checkCart==true){
+						echo '<li><a href="cart.php">Giỏ hàng</a></li>';
+					}else{
+						echo '';
+					}
+				?>
+				
+				<?php
+					$login_check = Session::get('customer_login');
+					if($login_check == false){
+						echo '';
+					}else{
+						echo '<li><a href="profile.php">Thông tin</a> </li>';
+					}
+				?>
 				<li><a href="contact.php">Liên hệ</a> </li>
 				<div class="clear"></div>
 			</ul>

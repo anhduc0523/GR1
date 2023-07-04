@@ -85,6 +85,14 @@ class cart{
         $result = $this->db->select($query);
         return $result;
     }
+
+    //Xóa thông tin giỏ hàng
+    public function del_all_data(){
+        $sId = session_id();
+        $query = "DELETE FROM tbl_cart WHERE sId = '$sId'";
+        $result = $this->db->select($query);
+        return $result;
+    }
 }
 
 ?>

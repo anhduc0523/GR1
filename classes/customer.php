@@ -24,7 +24,7 @@ class customer{
         $phone = mysqli_real_escape_string($this->db->link,$data['phone']);
         $password = mysqli_real_escape_string($this->db->link,md5($data['password']));
 
-        if($name=="" || $city=="" || $email=="" || $address=="" || $country=="" || $phone=="" || $password==""){
+        if($name=="" || $city=="" || $email==""|| $zipcode=="" || $address=="" || $country=="" || $phone=="" || $password==""){
             $alert = "<span class = 'error'>Fields must be not empty</span>";
             return $alert;
         }else{
@@ -67,6 +67,37 @@ class customer{
                 $alert = "<span class = 'error'>Email or Password is wrong</span>";
                 return $alert;
             }
+        }
+    }
+
+    public function show_customer($id){
+        $query = "SELECT * FROM tbl_customer WHERE id = '$id'";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function update_customer($data,$id){
+        $name = mysqli_real_escape_string($this->db->link,$data['name']);
+        $zipcode = mysqli_real_escape_string($this->db->link,$data['zipcode']);
+        $email = mysqli_real_escape_string($this->db->link,$data['email']);
+        $address = mysqli_real_escape_string($this->db->link,$data['address']);
+        $phone = mysqli_real_escape_string($this->db->link,$data['phone']);
+         if($name=="" || $email=="" || $address=="" || $phone=="" || $zipcode==""){
+            $alert = "<span class = 'error'>Fields must be not empty</span>";
+            return $alert;
+        }else{
+            
+            $query = "UPDATE tbl_customer SET name='$name',zipcode='$zipcode',email='$email',
+                address='$address',phone='$phone' WHERE id = '$id'";
+            $result = $this->db->update($query);
+            if($result){
+                $alert = "<span class = 'success'>Update customer successfully</span>";
+                return $alert;
+            }else{
+                $alert = "<span class = 'error'>Update customer NOT success</span>";
+                return $alert;
+            }
+            
         }
     }
 }
