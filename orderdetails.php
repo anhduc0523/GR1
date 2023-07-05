@@ -3,29 +3,17 @@ include 'inc/header.php';
 // include 'inc/slider.php';
 ?>
 <?php
-	// if(isset($_GET['cartId'])){
-	// 	$cartid = $_GET['cartId'];
-	// 	 $delcart = $ct->del_product_cart($cartid);
-	// }
-	// if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
-	// 	// the request using the post method
-	// 	$cartId = $_POST['cartId'];
-	// 	$quantity = $_POST['quantity'];
-	// 	$update_quantity_cart = $ct-> update_quantity_cart($quantity,$cartId);
-	// 	if($quantity <=0 ){
-	// 		$delcart = $ct->del_product_cart($cartId);
-	// 	}
-	// }
-?>
-<?php
-	// $customer_id = Session::get('customer_id');
-    // if(!isset($customer_id)){
-	// 	header('Location:login.php');
-	// }
     $login_check = Session::get('customer_login');
 	if($login_check == false){
 		header('Location:login.php');
 	}
+    $ct = new cart();
+    if(isset($_GET['confirmid'])){
+        $id = $_GET['confirmid'];
+		$time = $_GET['time'];
+		$price = $_GET['price'];
+		$shifted_confirm = $ct-> confirm_shifted($id,$time,$price);
+    }
 ?> 
  <div class="main">
     <div class="content">
@@ -65,8 +53,13 @@ include 'inc/header.php';
                                     <?php
                                         if($result['status']==0){
                                             echo 'Pending';
+                                        }elseif($result['status']==1){
+                                        ?>
+                                        <span>Shifted</span>
+                                        
+                                        <?php
                                         }else{
-                                            echo "Processed";
+                                            echo 'Received';
                                         }
                                     ?>
                                 </td>
@@ -76,11 +69,16 @@ include 'inc/header.php';
 
                                         <td><?php echo 'N/A'?></td>
                                     <?php
-                                    }else{
+                                    }elseif($result['status']==1){
                                         ?>
-                                    
+                                    <td>  <a href="?confirmid=<?php echo $customer_id?>&price=<?php 
+                                        echo $result['price']?>
+								        &time=<?php echo $result['date_order']?>">Confirm</a></td> 
+                                    <?php
+                                    }else{
+                                    ?>
                                 
-								<td><a onclick="return confirm('Are you want to delete');" href="?id=<?php echo $result['id']?>">Xóa</a></td>
+								<td><?php echo 'Received';?></td>
                                 <?php
                                     }
                                 ?>

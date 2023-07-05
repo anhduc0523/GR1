@@ -50,6 +50,7 @@ class cart{
         $result = $this->db->select($query);
         return $result;
     }
+
     //Update số lượng(quantity) của sản phẩm khi người dùng thay đổi giá trị số lượng trên trang giỏ hàng
     public function update_quantity_cart($quantity,$cartId){
         $quantity = mysqli_real_escape_string($this->db->link,$quantity);
@@ -132,7 +133,58 @@ class cart{
         return $get_price;
     }
 
-    
+    public function get_inbox_cart(){
+        $query = "SELECT * FROM tbl_order ORDER BY date_order";
+        $get_inbox_cart = $this->db->select($query);
+        return $get_inbox_cart;
+    }
+
+    public function shifted($id,$time,$price){
+        $id = mysqli_real_escape_string($this->db->link,$id);
+        $time = mysqli_real_escape_string($this->db->link, $time);
+        $price = mysqli_real_escape_string($this->db->link, $price);
+        $query = "UPDATE tbl_order SET status = '1' WHERE id = '$id' 
+        AND date_order = '$time' 
+        AND price = '$price'";
+        $result = $this->db->update($query);
+        return $result;
+        if($result){
+            $alert = "<span class = 'success'>Order updated success</span>";
+            return $alert;
+        }else{
+            $alert = "<span class = 'error'>Order updated not success</span>";
+            return $alert;
+        }
+    }
+
+    public function del_shifted($id,$time,$price){
+        $id = mysqli_real_escape_string($this->db->link,$id);
+        $time = mysqli_real_escape_string($this->db->link, $time);
+        $price = mysqli_real_escape_string($this->db->link, $price);
+        $query = "DELETE FROM tbl_order WHERE id = '$id' 
+        AND date_order = '$time' 
+        AND price = '$price'";
+        $result = $this->db->delete($query);
+        return $result;
+        if($result){
+            $alert = "<span class = 'success'>Order deleted success</span>";
+            return $alert;
+        }else{
+            $alert = "<span class = 'error'>Order deleted not success</span>";
+            return $alert;
+        }
+    }
+
+    public function confirm_shifted($id,$time,$price){
+        $id = mysqli_real_escape_string($this->db->link,$id);
+        $time = mysqli_real_escape_string($this->db->link, $time);
+        $price = mysqli_real_escape_string($this->db->link, $price);
+        $query = "UPDATE tbl_order SET status = '2' WHERE customer_id = '$id' 
+        AND date_order = '$time' 
+        AND price = '$price'";
+        $result = $this->db->update($query);
+        return $result;
+    }
 }
 
 ?>
