@@ -118,6 +118,16 @@
 						echo '';
 					}
 				?>
+
+				<?php
+					$customer_id = Session::get('customer_id');
+					$checkOrder = $ct-> check_order($customer_id);
+					if($checkOrder==true){
+						echo '<li><a href="orderdetails.php">Đơn hàng</a></li>';
+					}else{
+						echo '';
+					}
+				?>
 				
 				<?php
 					$login_check = Session::get('customer_login');

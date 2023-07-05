@@ -3,11 +3,12 @@ include 'inc/header.php';
 // include 'inc/slider.php';
 ?>
 <?php
-	// if(isset($_GET['proId']) && $_GET['proId']!=NULL){
-    //     $id = $_GET['proId'];
-    // }else {
-    //     echo "<script>window.location ='404.php'</script>";
-    // }
+	if(isset($_GET['orderid']) && $_GET['orderid']=='order'){
+        $customer_id = Session::get('customer_id');
+		$insert_order = $ct -> insertOrder($customer_id);
+		$del_cart = $ct-> del_all_data();
+		header('Location:success.php');
+    }
 	// if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 	// 	// the request using the post method
 	// 	$quantity = $_POST['quantity'];
@@ -188,7 +189,7 @@ include 'inc/header.php';
  		</div>
         
  	</div>
-    <center><input class="submit_order" type="submit" value="Order Now" name="order"></center>
+    <center><a href="?orderid=order" class="submit_order">Order</a></center><br><br><br>
 </div>
 </form>
 <?php
