@@ -49,6 +49,49 @@ class product{
         }
     }
 
+    public function insert_slider($data,$files){
+        $sliderName = mysqli_real_escape_string($this->db->link,$data['sliderName']);
+        $type = mysqli_real_escape_string($this->db->link,$data['type']);
+
+        //Kiểm tra hình ảnh và lấy hình ảnh cho vào folder upload
+        $permited = array('jpg','jpeg','png','gif');
+        $file_name = $_FILES['image']['name'];
+        $file_size = $_FILES['image']['size'];
+        $file_temp = $_FILES['image']['tmp_name'];
+
+        $div = explode(".", $file_name);
+        $file_ext = strtolower(end($div));
+        $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
+        $uploaded_image = "uploads/".$unique_image;
+
+        if($sliderName==""|| $type==""){
+            $alert = "<span class = 'error'>Fields must be not empty</span>";
+            return $alert;
+        }else{
+            if(!empty($file_name)){
+                //Nếu người dùng chọn ảnh
+                if($file_size > 1024000){
+                    $alert = "<span class = 'error'>Image size should be less than 1000MB</span>";
+                    return $alert;
+                }elseif(in_array($file_ext, $permited) == false){
+                    $alert = "<span class = 'error'> You can upload only:-".implode(',', $permited)."</span>";
+                    return $alert;
+                }
+                move_uploaded_file($file_temp,$uploaded_image);
+                $query = "INSERT INTO tbl_slider(sliderName,type,sliderImage) VALUES('$sliderName',
+                '$type','$unique_image')";
+                $result = $this->db->insert($query);
+                if($result){
+                    $alert = "<span class = 'success'>Slider insert successfully</span>";
+                    return $alert;
+                }else{
+                    $alert = "<span class = 'error'>Slider insert NOT success</span>";
+                    return $alert;
+                }
+            }
+        }
+    }
+
     public function show_product(){
         $query = "SELECT tbl_product.*, tbl_category.catName 
         FROM tbl_product INNER JOIN tbl_category ON tbl_product.catId = tbl_category.catId  
@@ -157,7 +200,20 @@ class product{
 
     //Lấy 4 sản phẩm mới nhất
     public function getproduct_new(){
-        $query = "SELECT * FROM tbl_product ORDER BY productId desc LIMIT 4";
+        $sp_tung_trang = 4;
+        if(!isset($_GET['trang'])){
+            $trang = 1;
+        }else{
+            $trang = $_GET['trang'];
+        }
+        $tung_trang = ($trang - 1 )*$sp_tung_trang;
+        $query = "SELECT * FROM tbl_product ORDER BY productId desc LIMIT $tung_trang,$sp_tung_trang";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function get_all_product(){
+        $query = "SELECT * FROM tbl_product";
         $result = $this->db->select($query);
         return $result;
     }
@@ -196,6 +252,13 @@ class product{
         $result = $this->db->select($query);
         return $result;
     } 
+
+    public function search_product($tukhoa){
+        $tukhoa = $this->fm->validation($tukhoa);
+        $query = "SELECT * FROM tbl_product WHERE productName LIKE '%$tukhoa%'";
+        $result = $this->db->select($query);
+        return $result;
+    }
 }
 
 ?>

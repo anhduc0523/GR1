@@ -41,7 +41,7 @@ include 'inc/header.php';
                 <?php 
                     $vat = $amount*0.1; 
                     $total = $amount + $vat;
-                    echo $total.' '.'VND'; 
+                    echo $fm->format_currency($total)." "."VND"; 
                 ?></p>
             <p class="success_note">We will contact as soon as posible. Please see your order here <a href="orderdetails.php">Click Here</a></p>
  		</div>

@@ -57,7 +57,7 @@ include 'inc/header.php';
 							<tr>
 								<td><?php echo $result['productName']?></td>
 								<td><img src="admin/uploads/<?php echo $result['image']?>" alt=""/></td>
-								<td><?php echo $result['price']?></td>
+								<td><?php echo $fm->format_currency($result['price'])." "."VND"?></td>
 								<td>
 									<form action="" method="post">
 										<input type="hidden" name="cartId" value="<?php echo $result['cartId']?>"/>
@@ -67,7 +67,7 @@ include 'inc/header.php';
 								</td>
 								<td><?php
 									$total = $result['price'] * $result['quantity'];
-									echo $total;
+									echo $fm->format_currency($total)." "."VND";
 								?></td>
 								<td><a href="?cartId=<?php echo $result['cartId']?>">Xóa</a></td>
 							</tr>
@@ -87,7 +87,7 @@ include 'inc/header.php';
 							<tr>
 								<th>Sub Total : </th>
 								<td><?php 
-									echo $subtotal;
+									echo $fm->format_currency($subtotal)." "."VND";
 									Session::set('sum',$subtotal); 
 									Session::set('qty',$qty); 
 								?></td>
@@ -101,7 +101,7 @@ include 'inc/header.php';
 								<td><?php
 									$vat = $subtotal * 0.1;
 									$gtotal = $vat + $subtotal;
-									echo $gtotal;
+									echo $fm->format_currency($gtotal)." "."VND";
 								?></td>
 							</tr>
 					   </table>

@@ -44,7 +44,7 @@ include 'inc/header.php';
 								<td><?php echo $i;?></td>
                                 <td><?php echo $result['productName']?></td>
 								<td><img src="admin/uploads/<?php echo $result['image']?>" alt=""/></td>
-								<td><?php echo $result['price'].' '.'VND'?></td>
+								<td><?php echo $fm->format_currency($result['price'])." "."VND"?></td>
 								<td>
 									<?php echo $result['quantity']?>										
 								</td>
@@ -72,7 +72,7 @@ include 'inc/header.php';
                                     }elseif($result['status']==1){
                                         ?>
                                     <td>  <a href="?confirmid=<?php echo $customer_id?>&price=<?php 
-                                        echo $result['price']?>
+                                        echo $fm->format_currency($result['price'])." "."VND"?>
 								        &time=<?php echo $result['date_order']?>">Confirm</a></td> 
                                     <?php
                                     }else{

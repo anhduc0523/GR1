@@ -484,7 +484,7 @@ p.note{
 }
 .list_2_of_1  h2 {
 	color:#CC3636;
-	font-size:1.2em;
+	font-size:0.8em;
 	font-family: 'Monda', sans-serif;
 	font-weight : normal;
 	text-transform:uppercase;
@@ -1966,7 +1966,7 @@ p.terms {
     	margin-top:0.5em;
     }
     .images_1_of_4 h2 {
-    	font-size:1.2em;
+    	font-size:0.8em;
     	letter-spacing:0;
     }
     .images_1_of_4 p span.strike,.images_1_of_4 p span.price {
@@ -2234,7 +2234,7 @@ p.terms {
     	margin-top:0.5em;
     }
     .images_1_of_4 h2 {
-    	font-size:1.2em;
+    	font-size:0.8em;
     	letter-spacing:0;
     }
     .images_1_of_4 p span.strike,.images_1_of_4 p span.price {

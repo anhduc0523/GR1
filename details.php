@@ -13,6 +13,16 @@ include 'inc/header.php';
 		$quantity = $_POST['quantity'];
 		$addtocart = $ct-> add_to_cart($quantity,$id);
 	}
+
+	if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['wishlist'])){
+		// the request using the post method
+		$productId = $_POST['productId'];
+		$insertWishlist = $pd-> insertWishlist($productId,$customer_id);
+	}
+
+	if(isset($_POST['binhluan_submit'])){
+        $insert_binhluan = $cs->insert_binhluan();
+    }
 ?>
  <div class="main">
     <div class="content">
@@ -31,7 +41,7 @@ include 'inc/header.php';
 					<h2><?php echo $result_details['productName']?></h2>
 					<!-- <p><?php echo $fm->textShorten($result_details['product_desc'], 100)?></p>					 -->
 					<div class="price">
-						<p>Giá: <span><?php echo $result_details['price']." "."VND"?></span></p>
+						<p>Giá: <span><?php echo $fm->format_currency($result_details['price'])." "."VND"?></span></p>
 						<p>Thể loại: <span><?php echo $result_details['catName']?></span></p>
 					</div>
 				<div class="add-cart">
@@ -46,12 +56,32 @@ include 'inc/header.php';
 						}
 					?>				
 				</div>
+				
 			</div>
 			<div class="product-desc">
 			<h2>Miêu tả</h2>
 			<p><?php echo $result_details['product_desc']?></p>	
 	        
 	    </div>
+		<div class="binhluan">
+			<div class="row">
+				<div class="col-md-12">
+					<h5>Bình luận</h5>
+					<?php
+						if(isset($insert_binhluan)){
+							echo $insert_binhluan;
+						}
+					?>
+					<form action="" method="POST">
+						<p><input type="hidden" value="<?php echo $id ?>" name="productId_binhluan"></p>
+						<p><input type="text"  placeholder="Điền tên" class="form-control" name="tenNguoiBinhLuan"></p><br>
+						<p><textarea rows="5" style="resize:none" placeholder="Bình luận" class="form-control" name="binhluan"></textarea></p>
+						<p><input type="submit" name="binhluan_submit" class="btn btn-success" value="Gửi bình luận"></p>
+					</form>
+				</div>
+			</div>
+			
+		</div>
 	</div>
 	<?php
 						}
@@ -74,7 +104,9 @@ include 'inc/header.php';
 						}
 					?>
  				</div>
+		
  	</div>
+
 </div>
 	
 <?php

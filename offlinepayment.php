@@ -81,11 +81,11 @@ include 'inc/header.php';
 								<td><?php echo $i?></td>
                                 <td><?php echo $result['productName']?></td>
 								<td><img src="admin/uploads/<?php echo $result['image']?>" alt=""/></td>
-								<td><?php echo $result['price'].' '.'VND'?></td>
+								<td><?php echo $fm->format_currency($result['price']).' '.'VND'?></td>
 								<td><?php echo $result['quantity']?></td>
 								<td><?php
 									$total = $result['price'] * $result['quantity'];
-									echo $total.' '.'VND';
+									echo $fm->format_currency($total)." "."VND";
 								?></td>
 								
 							</tr>
@@ -105,21 +105,21 @@ include 'inc/header.php';
 							<tr>
 								<th>Sub Total : </th>
 								<td><?php 
-									echo $subtotal.' '.'VND';
+									echo $fm->format_currency($subtotal)." "."VND";
 									Session::set('sum',$subtotal); 
 									Session::set('qty',$qty); 
 								?></td>
 							</tr>
 							<tr>
 								<th>VAT : </th>
-								<td>10% (<?php echo $vat = $subtotal * 0.1;?>)</td>
+								<td>10% (<?php echo $fm->format_currency($vat = $subtotal * 0.1)." "."VND";?>)</td>
 							</tr>
 							<tr>
 								<th>Grand Total :</th>
 								<td><?php
 									$vat = $subtotal * 0.1;
 									$gtotal = $vat + $subtotal;
-									echo $gtotal.' '.'VND';
+									echo $fm->format_currency($gtotal)." "."VND";
 								?></td>
 							</tr>
                              
