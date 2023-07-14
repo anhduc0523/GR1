@@ -22,6 +22,8 @@
 	$cat = new category();
 	$cs = new customer();
 	$product = new product();
+	$post = new post();
+	$blog = new blog();
 ?>
 <?php
   header("Cache-Control: no-cache, must-revalidate");
@@ -141,7 +143,25 @@
 						echo '<li><a href="profile.php">Thông tin</a> </li>';
 					}
 				?>
-				<!-- <li><a href="compare.php">So sánh sản phẩm</a> </li> -->
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						Tin tức<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">	
+						<?php
+							$postlist = $post->show_category_post();
+							if($postlist){
+								while($result_new = $postlist->fetch_assoc()){
+						?>
+						<li>
+							<a href="categorypost.php?idpost=<?php echo $result_new['cate_post_id']?>"><?php echo $result_new['title']?></a>
+						</li>
+						<?php
+								}
+							} 
+						?>
+					</ul> 
+				</li>
 				<li><a href="contact.php">Liên hệ</a> </li>
 				<div class="clear"></div>
 			</ul>

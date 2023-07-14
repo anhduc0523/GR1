@@ -10,14 +10,9 @@ include 'inc/header.php';
     }
 	if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 		// the request using the post method
+		$productQuantity = $_POST['productQuantity'];
 		$quantity = $_POST['quantity'];
-		$addtocart = $ct-> add_to_cart($quantity,$id);
-	}
-
-	if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['wishlist'])){
-		// the request using the post method
-		$productId = $_POST['productId'];
-		$insertWishlist = $pd-> insertWishlist($productId,$customer_id);
+		$addtocart = $ct-> add_to_cart($quantity,$productQuantity,$id);
 	}
 
 	if(isset($_POST['binhluan_submit'])){
@@ -43,9 +38,11 @@ include 'inc/header.php';
 					<div class="price">
 						<p>Giá: <span><?php echo $fm->format_currency($result_details['price'])." "."VND"?></span></p>
 						<p>Thể loại: <span><?php echo $result_details['catName']?></span></p>
+						<p>Tồn kho: <span><?php echo $result_details['productQuantity']?></span></p>
 					</div>
 				<div class="add-cart">
 					<form action="" method="post">
+						<input type="hidden" class="buyfield" name="productQuantity" value="<?php echo $result_details['productQuantity']?>"/>
 						<input type="number" class="buyfield" name="quantity" value="1" min="1"/>
 						<input type="submit" class="buysubmit" name="submit" value="Mua ngay"/>
 						

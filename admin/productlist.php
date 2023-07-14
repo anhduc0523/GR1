@@ -26,6 +26,7 @@
 					<th>ID</th>
 					<th>Category</th>
 					<th>Product Name</th>
+					<th>Product Quantity</th>
 					<th>Price</th>
 					<th>Image</th>
 					<th>Description</th>
@@ -45,6 +46,7 @@
 					<td><?php echo $i;?></td>
 					<td><?php echo $result['catName'];?></td>
 					<td width="350px"><?php echo $result['productName'];?></td>
+					<td><?php echo $result['productQuantity'];?></td>
 					<td><?php echo $result['price'];?></td>
 					<td><img src="uploads/<?php echo $result['image'];?>" width="80px"></td>
 					<td width="200px"><?php echo $fm->textShorten($result['product_desc'], 50);?></td>

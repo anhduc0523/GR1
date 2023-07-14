@@ -15,9 +15,13 @@ class cart{
     }
 
     //Đưa 1 sản phẩm mới vào giỏ hàng
-    public function add_to_cart($quantity,$id){
+    public function add_to_cart($quantity,$productQuantity,$id){
         $quantity = $this->fm->validation($quantity);
         $quantity = mysqli_real_escape_string($this->db->link,$quantity);
+
+        $productQuantity = $this->fm->validation($productQuantity);
+        $productQuantity = mysqli_real_escape_string($this->db->link,$productQuantity);
+
         $id = mysqli_real_escape_string($this->db->link, $id);
         $sId = session_id();
 
@@ -29,19 +33,25 @@ class cart{
         //Kiểm tra xem sản phẩm thêm vào đã có trong cart chưa
         $query_cart = "SELECT * FROM tbl_cart WHERE productId = '$id' AND sid = '$sId'";
         $check_cart =  $this->db->select($query_cart); 
-        if($check_cart){
-            $msg = "Product has been already added";
-            return $msg;
-        }else{
-            $query_insert = "INSERT INTO tbl_cart(productId,quantity,sId,image,price,productName) 
-            VALUES('$id','$quantity','$sId','$image','$price','$productName')";
-            $insert_cart = $this->db->insert($query_insert);
-            if($insert_cart){
-                header('Location:cart.php');
+        if($quantity <= $productQuantity){//nếu số lượng đặt không quá tồn kho
+            if($check_cart){
+                $msg = "Product has been already added";
+                return $msg;
             }else{
-                header('Location:404.php');
+                $query_insert = "INSERT INTO tbl_cart(productId,quantity,sId,image,price,productName) 
+                VALUES('$id','$quantity','$sId','$image','$price','$productName')";
+                $insert_cart = $this->db->insert($query_insert);
+                if($insert_cart){
+                    header('Location:cart.php');
+                }else{
+                    header('Location:404.php');
+                }
             }
+        }else{
+            $msg = "Product quantity is more than we have";
+            return $msg;
         }
+        
     }
     //Lấy ra thông tin sản phẩm đã có trong cart để đưa ra trang giao diện
     public function get_product_cart(){

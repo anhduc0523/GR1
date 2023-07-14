@@ -1,33 +1,33 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
-<?php include '../classes/category.php';?>
-<?php include '../classes/product.php';?>
+<?php include '../classes/post.php';?>
+<?php include '../classes/blog.php';?>
 <?php
-    $pd = new product();
-    if(isset($_GET['productId']) && $_GET['productId']!=NULL){
-        $id = $_GET['productId'];
+    $blog = new blog();
+    if(isset($_GET['id']) && $_GET['id']!=NULL){
+        $id = $_GET['id'];
     }else {
-        echo "<script>window.location ='productlist.php'</script>";
+        echo "<script>window.location ='bloglist.php'</script>";
     }
 	if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 		// the request using the post method
 
-		$update_product = $pd-> update_product($_POST, $_FILES, $id);
+		$update_blog = $blog-> update_blog($_POST, $_FILES, $id);
 	}
 ?>
 <div class="grid_10">
     <div class="box round first grid">
-        <h2>Sửa sản phẩm</h2>
+        <h2>Sửa tin tức</h2>
         <div class="block">
         <?php
-            if(isset($update_product)){
-                echo $update_product;
+            if(isset($update_blog)){
+                echo $update_blog;
             }
         ?>
         <?php
-            $get_product_by_id =  $pd->getProductById($id);
-            if($get_product_by_id){
-                while($result_product = $get_product_by_id->fetch_assoc()){
+            $get_blog_by_id =  $blog-> getBlogById($id);
+            if($get_blog_by_id){
+                while($result_blog = $get_blog_by_id->fetch_assoc()){
 
         ?>               
          <form action="" method="post" enctype="multipart/form-data">
@@ -35,40 +35,31 @@
                
                 <tr>
                     <td>
-                        <label>Name</label>
+                        <label>Title</label>
                     </td>
                     <td>
-                        <input type="text" name="productName" value="<?php echo $result_product['productName'];?>" class="medium" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <label>Quantity</label>
-                    </td>
-                    <td>
-                        <input type="number" min="1" name="productQuantity" value="<?php echo $result_product['productQuantity'];?>" class="medium" />
+                        <input type="text" name="title" value="<?php echo $result_blog['title'];?>" class="medium" />
                     </td>
                 </tr>
 				<tr>
                     <td>
-                        <label>Category</label>
+                        <label>Category Post</label>
                     </td>
                     <td>
-                        <select id="select" name="category">
+                        <select id="select" name="category_post">
                             <option>Select Category</option>
                             <?php
-                                $cat = new category();
-                                $catlist = $cat->show_category();
-                                if($catlist){
-                                    while($result = $catlist->fetch_assoc()){
+                                $post = new post();
+                                $postlist = $post->show_category_post();
+                                if($postlist){
+                                    while($result = $postlist->fetch_assoc()){
 
                             ?>
                             <option 
                             <?php
-                                if($result['catId'] == $result_product['catId']){echo 'selected';}
+                                if($result['cate_post_id'] == $result_blog['category_post']){echo 'selected';}
                             ?>
-                            value="<?php echo $result['catId'];?>"><?php echo $result['catName'];?></option>
+                            value="<?php echo $result['cate_post_id'];?>"><?php echo $result['title'];?></option>
                             <?php
                                     }
                                 }
@@ -82,15 +73,16 @@
                         <label>Description</label>
                     </td>
                     <td>
-                        <textarea name="product_desc" class="tinymce"><?php echo $result_product['product_desc'];?></textarea>
+                        <textarea name="desc" class="tinymce"><?php echo $result_blog['description'];?></textarea>
                     </td>
                 </tr>
-				<tr>
-                    <td>
-                        <label>Price</label>
+
+                <tr>
+                    <td style="vertical-align: top; padding-top: 9px;">
+                        <label>Content</label>
                     </td>
                     <td>
-                        <input type="text" name="price" value="<?php echo $result_product['price'];?>" class="medium" />
+                        <textarea name="content" class="tinymce"><?php echo $result_blog['content'];?></textarea>
                     </td>
                 </tr>
             
@@ -99,29 +91,29 @@
                         <label>Upload Image</label>
                     </td>
                     <td>
-                        <img src="uploads/<?php echo $result_product['image'];?>" width="80px"> <br>
+                        <img src="uploads/<?php echo $result_blog['image'];?>" width="80px"> <br>
                         <input type="file" name="image" />
                     </td>
                 </tr>
 				
 				<tr>
                     <td>
-                        <label>Product Type</label>
+                        <label>Blog Status</label>
                     </td>
                     <td>
                         <select id="select" name="type">
                             <option>Select Type</option>
                             <?php
-                                if($result_product['type'] == 0){
+                                if($result_blog['status'] == 0){
 
                             ?>
-                            <option selected value="0">Featured</option>
-                            <option value="1">Non-Featured</option>
+                            <option selected value="0">Hiển thị</option>
+                            <option value="1">Ẩn</option>
                             <?php
                                 }else{
                             ?>
-                            <option value="0">Featured</option>
-                            <option selected value="1">Non-Featured</option>
+                            <option value="0">Hiển thị</option>
+                            <option selected value="1">Ẩn</option>
                             <?php
                                 }
                             ?>

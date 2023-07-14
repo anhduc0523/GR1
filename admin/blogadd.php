@@ -1,60 +1,50 @@
-﻿<?php include 'inc/header.php';?>
+<?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
-<?php include '../classes/category.php';?>
-<?php include '../classes/product.php';?>
+<?php include '../classes/post.php';?>
+<?php include '../classes/blog.php';?>
 <?php
-    $pd = new product();
+    $blog = new blog();
 	if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 		// the request using the post method
 
-		$insert_product = $pd-> insert_product($_POST,$_FILES);
+		$insert_blog = $blog-> insert_product($_POST,$_FILES);
 	}
 ?>
 <div class="grid_10">
     <div class="box round first grid">
-        <h2>Thêm sản phẩm</h2>
+        <h2>Thêm tin tức</h2>
         <div class="block">
         <?php
-            if(isset($insert_product)){
-                echo $insert_product;
+            if(isset($insert_blog)){
+                echo $insert_blog;
             }
         ?>               
-         <form action="productadd.php" method="post" enctype="multipart/form-data">
+         <form action="blogadd.php" method="post" enctype="multipart/form-data">
             <table class="form">
                
                 <tr>
                     <td>
-                        <label>Name</label>
+                        <label>Title</label>
                     </td>
                     <td>
-                        <input type="text" name="productName" placeholder="Enter Product Name..." class="medium" />
+                        <input type="text" name="title" placeholder="......." class="medium" />
                     </td>
                 </tr>
-
-                <tr>
-                    <td>
-                        <label>Quantity</label>
-                    </td>
-                    <td>
-                        <input type="number" min="1" name="productQuantity" placeholder="Enter Product Quantity..." class="medium" />
-                    </td>
-                </tr>
-
 				<tr>
                     <td>
-                        <label>Category</label>
+                        <label>Category Post</label>
                     </td>
                     <td>
-                        <select id="select" name="category">
-                            <option>Select Category</option>
+                        <select id="select" name="category_post">
+                            <option>Select Category Post</option>
                             <?php
-                                $cat = new category();
-                                $catlist = $cat->show_category();
+                                $post = new post();
+                                $catlist = $post->show_category_post();
                                 if($catlist){
                                     while($result = $catlist->fetch_assoc()){
 
                             ?>
-                            <option value="<?php echo $result['catId'];?>"><?php echo $result['catName'];?></option>
+                            <option value="<?php echo $result['cate_post_id'];?>"><?php echo $result['title'];?></option>
                             <?php
                                     }
                                 }
@@ -68,15 +58,16 @@
                         <label>Description</label>
                     </td>
                     <td>
-                        <textarea name="product_desc" class="tinymce"></textarea>
+                        <textarea name="desc" class="tinymce"></textarea>
                     </td>
                 </tr>
-				<tr>
-                    <td>
-                        <label>Price</label>
+
+                <tr>
+                    <td style="vertical-align: top; padding-top: 9px;">
+                        <label>Content</label>
                     </td>
                     <td>
-                        <input type="text" name="price" placeholder="Enter Price..." class="medium" />
+                        <textarea name="content" class="tinymce"></textarea>
                     </td>
                 </tr>
             
@@ -91,13 +82,13 @@
 				
 				<tr>
                     <td>
-                        <label>Product Type</label>
+                        <label>Blog Status</label>
                     </td>
                     <td>
                         <select id="select" name="type">
                             <option>Select Type</option>
-                            <option value="1">Featured</option>
-                            <option value="0">Non-Featured</option>
+                            <option value="0">Hiển thị</option>
+                            <option value="1">Ẩn</option>
                         </select>
                     </td>
                 </tr>
